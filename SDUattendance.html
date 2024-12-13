@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDU University - Attendance Tracking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color:  #1a225e;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            font-size: 14px;
+            color: white;
+            background-color:  #535987;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color:  rgba(0, 0, 0, 0.1); /* Brighter blue */
+        }
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('1946720372-5be07d02e26870b470348df69b5a3f5c71ac620cca3968e00ad435332984373a-d.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .main-content h1 {
+            font-size: 90px;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .main-content h2 {
+            font-size: 50px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color:  #1a225e;
+            font-size: 14px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SDU University</h1>
+        <nav>
+            <a href="#">Login for Students </a>
+            <a href="#">Login for Teachers</a>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <h1>SDU University</h1>
+        <h2>Attendance Tracking</h2>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 SDU University. All rights reserved.</p>
+    </footer>
+</body>
+</html>

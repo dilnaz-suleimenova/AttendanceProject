@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #ecedf3;
+        }
+
+        header {
+            width: 100%;
+            background-color: #1a225e;
+            padding: 15px 50px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: #535987;
+            color: white;
+            border: none;
+            padding: 8px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 36px;
+            margin-top: auto; 
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 50px;
+            border-right: 1px solid #ccc;
+            margin-top: 60px; 
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar img {
+            width: 110px;
+            height: 150px;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 5px; 
+        }
+
+        .student-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .subjects {
+            list-style: none;
+            padding: 0;
+        }
+
+        .subjects li {
+            padding: 10px;
+            background: #e8e8e8;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .subjects li:hover {
+            background: #d0d0d0;
+        }
+
+        .content {
+            width: 70%;
+            padding: 20px;
+            margin-top: 60px; /* Adjust to account for fixed header */
+        }
+
+        .attendance {
+            font-size: 1.2em;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SDU University</h1>
+    </header>
+    <div class="sidebar">
+        <img src="220107037/220107037.jpeg" alt="Student Photo">
+        <div class="student-info">
+            <h3>Suleimenova Dilnaz</h3>
+            <p>Degree: BSc Computer Science</p>
+            <p>Student Number: 220107037</p>
+        </div>
+        <ul class="subjects">
+            <li onclick="showAttendance('Machine Learning')">Machine Learning</li>
+            <li onclick="showAttendance('Data Structures')">Data Structures</li>
+            <li onclick="showAttendance('Web Development')">Web Development</li>
+            <li onclick="showAttendance('Algorithms')">Algorithms</li>
+        </ul>
+        <button class="logout-btn">Logout</button>
+    </div>
+    <div class="content">
+        <h2>Attendance Details</h2>
+        <div class="attendance">
+            Select a subject to view attendance.
+        </div>
+    </div>
+
+    <script>
+        function showAttendance(subject) {
+            const attendanceDetails = {
+                "Machine Learning": [
+                    { date: "01-12-2024", status: "✔" },
+                    { date: "03-12-2024", status: "✖" },
+                    { date: "05-12-2024", status: "✔" }
+                ],
+                "Data Structures": [
+                    { date: "02-12-2024", status: "✔" },
+                    { date: "04-12-2024", status: "✔" },
+                    { date: "06-12-2024", status: "✔" }
+                ],
+                "Web Development": [
+                    { date: "01-12-2024", status: "✖" },
+                    { date: "03-12-2024", status: "✔" },
+                    { date: "05-12-2024", status: "✔" }
+                ],
+                "Algorithms": [
+                    { date: "02-12-2024", status: "✔" },
+                    { date: "04-12-2024", status: "✖" },
+                    { date: "06-12-2024", status: "✔" }
+                ]
+            };
+
+            const attendance = attendanceDetails[subject];
+            if (!attendance) {
+                document.querySelector('.attendance').innerHTML = "No attendance data available.";
+                return;
+            }
+
+            let tableHTML = `
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+            `;
+            attendance.forEach(entry => {
+                tableHTML += `
+                    <tr>
+                        <td>${entry.date}</td>
+                        <td>${entry.status}</td>
+                    </tr>
+                `;
+            });
+            tableHTML += `</table>`;
+
+            document.querySelector('.attendance').innerHTML = tableHTML;
+        }
+    </script>
+</body>
+</html>
