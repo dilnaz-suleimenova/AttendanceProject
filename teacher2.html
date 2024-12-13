@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #ecedf3;
+        }
+
+        header {
+            width: 100%;
+            background-color: #1a225e;
+            padding: 15px 50px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: #535987;
+            color: white;
+            border: none;
+            padding: 8px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.5;
+            height: 36px;
+        }
+
+        .sidebar {
+            width: 30%;
+            background-color: #f4f4f4;
+            padding: 50px;
+            border-right: 1px solid #ccc;
+            margin-top: 60px;
+            height: calc(100vh - 60px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar img {
+            width: 110px;
+            height: 150px;
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 5px;
+        }
+
+        .teacher-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .subjects {
+            list-style: none;
+            padding: 0;
+        }
+
+        .subjects li {
+            padding: 10px;
+            background: #e8e8e8;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .subjects li:hover {
+            background: #d0d0d0;
+        }
+
+        .content {
+            width: 70%;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        .attendance {
+            font-size: 1.2em;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .set-attendance-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #535987;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        #attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        #attendance-table th,
+        #attendance-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #attendance-table th {
+            background-color: #f4f4f4;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        .toggle {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .green-check {
+            color: green;
+        }
+
+        .red-cross {
+            color: red;
+        }
+
+        .blue-reason {
+            color: blue;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .hidden-checkbox {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SDU University</h1>
+    </header>
+    <div class="sidebar">
+        <img src="220107037/220107037.jpeg" alt="Student Photo">
+        <div class="teacher-info">
+            <h3>Akhmetbek Yernar</h3>
+            <p>Position: Lecturer</p>
+            <p>Email: yernar.akhmetbek@sdu.edu.kz</p>
+        </div>
+        <ul class="subjects">
+            <li onclick="showAttendance('Machine Learning')">Machine Learning</li>
+        </ul>
+        <button class="logout-btn">Logout</button>
+    </div>
+    <div class="content">
+        <h2>Attendance Management</h2>
+        <div class="attendance" id="attendance">
+            Select a subject.
+        </div>
+    </div>
+
+    <script>
+        const students = [
+            "Aidos Akhatov", 
+            "Nuraskhan Aldongarov",
+            "Yernur Amangeldi",
+            "Dimash Ashirbek",
+            "Yernar Askarov",
+            "Adil Beisembay",
+            "Alima Bekbossynova",
+            "Sultan Burambay",
+            "Darmen Dauken",
+            "Nuradil Kanat",
+            "Adilet Kenesbekov",
+            "Dias Kussainov",
+            "Korkem Maxutbek",
+            "Sultan Mukashev",
+            "Didar Nurdaulet",
+            "Arsen Nurimbetov",
+            "Bauyrzhan Nurzhanov",
+            "Daniyal Orynbek",
+            "Assemay Rassilkhan",
+            "Danial Sandybayev",
+            "Dilnaz Suleimenova",
+            "Raiymbek Tolegenov",
+            "Raiymbek Zhanuzak",
+            "Damir Zhanzakov"
+        ];
+        const dates = ["2024-12-01", "2024-12-02", "2024-12-03"];
+
+        function showAttendance(subject) {
+            const attendanceDiv = document.getElementById('attendance');
+            attendanceDiv.innerHTML = `
+                <h3>${subject} Attendance</h3>
+                <button class="set-attendance-btn" onclick="setAttendance()">Set Attendance</button>
+                <div class="table-container">
+                    <table id="attendance-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                ${dates.map(date => `<th>${date}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${students.map(student => 
+                                `<tr>
+                                    <td>${student}</td>
+                                    ${dates.map(() => `<td><input type="checkbox" class="hidden-checkbox"></td>`).join('')}
+                                </tr>`).join('')}
+                        </tbody>
+                    </table>
+                </div>`;
+        }
+
+        function setAttendance() {
+            const checkboxes = document.querySelectorAll('.hidden-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.style.display = 'inline-block';
+                checkbox.addEventListener('change', function () {
+                    const cell = checkbox.parentElement;
+                    if (checkbox.checked) {
+                        cell.textContent = "✔";
+                        cell.classList.add('green-check');
+                        cell.classList.remove('red-cross', 'blue-reason');
+                    } else {
+                        cell.textContent = "";
+                        cell.classList.remove('green-check', 'red-cross', 'blue-reason');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
